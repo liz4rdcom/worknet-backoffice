@@ -57,3 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
+# dists
+dist
+
+# tern configuration file
+.tern-project
+
+# for local development
+development.yaml
