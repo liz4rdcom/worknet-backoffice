@@ -9,12 +9,26 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/user-search',
+    },
+    {
+      path: '/hello-world',
       name: 'HelloWorld',
       component: HelloWorld,
     },
     {
-      path: '/users',
-      name: 'users',
+      path: '/user-search',
+      name: 'users-search',
+      component: HelloWorld,
+    },
+    {
+      path: '/vacancy-search',
+      name: 'users-search',
+      component: HelloWorld,
+    },
+    {
+      path: '/users-list',
+      name: 'users-list',
       component: users,
     },
   ],
