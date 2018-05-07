@@ -3,13 +3,11 @@ module.exports = {
   parserOptions: {
     sourceType: 'module'
   },
-
   extends: 'standard',
   plugins: [
     'node',
     'standard'
   ],
-
   // add your custom rules here
   'rules': {
     'node/exports-style': ['error', 'module.exports'],
