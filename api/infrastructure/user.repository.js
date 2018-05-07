@@ -10,10 +10,11 @@ const utils = require('./utils')
 const index = config.get('elastic.usersIndex')
 const type = config.get('elastic.usersType')
 
-async function getUsers() {
+async function getUsers(queryString) {
   let options = {
     index,
     type,
+    q: !queryString ? '*' : '*' + queryString + '*',
   }
 
   let result = await client.search(options)
@@ -33,7 +34,22 @@ async function getById(id) {
   return utils.toObject(result)
 }
 
+async function advancedSearch(params = []) {
+  let andBasedquery = utils.buildElasticParametersQuery(params)
+
+  const options = {
+    index,
+    type,
+    q: andBasedquery,
+  }
+
+  let result = await client.search(options)
+
+  return result.hits.hits.map(utils.toObject)
+}
+
 module.exports = {
   getUsers,
   getById,
+  advancedSearch,
 }

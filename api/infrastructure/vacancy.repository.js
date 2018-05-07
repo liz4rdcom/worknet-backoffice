@@ -47,8 +47,23 @@ async function getByAuthorUserName(userName) {
   return result.hits.hits.map(utils.toObject)
 }
 
+async function advancedSearch(params = []) {
+  let andBasedquery = utils.buildElasticParametersQuery(params)
+
+  const options = {
+    index,
+    type,
+    q: andBasedquery,
+  }
+
+  let result = await client.search(options)
+
+  return result.hits.hits.map(utils.toObject)
+}
+
 module.exports = {
   getVacancies,
   getById,
   getByAuthorUserName,
+  advancedSearch,
 }

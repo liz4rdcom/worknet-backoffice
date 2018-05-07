@@ -12,8 +12,13 @@ async function getUserVacancies(userName) {
   return await vacancyRepository.getByAuthorUserName(userName)
 }
 
+async function advancedSearch(params) {
+  return await vacancyRepository.advancedSearch(params)
+}
+
 module.exports = {
   getList,
   getUserVacancies,
   getById,
+  advancedSearch,
 }
