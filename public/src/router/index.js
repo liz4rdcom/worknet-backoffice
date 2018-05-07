@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import UserSearch from '../components/UserSearch/user-search'
 import users from '../components/users'
 
 Vue.use(Router)
@@ -18,12 +19,12 @@ export default new Router({
     },
     {
       path: '/user-search',
-      name: 'users-search',
-      component: HelloWorld,
+      name: 'user-search',
+      component: UserSearch,
     },
     {
       path: '/vacancy-search',
-      name: 'users-search',
+      name: 'vacancy-search',
       component: HelloWorld,
     },
     {

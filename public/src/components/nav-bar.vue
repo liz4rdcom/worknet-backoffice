@@ -17,7 +17,6 @@
       </b-navbar-nav> -->
     </b-collapse>
   </b-navbar>
- <password-change ref="modalRef"></password-change>
 </div>
 </template>
 
