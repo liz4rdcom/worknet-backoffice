@@ -16,17 +16,15 @@
 </template>
 
 <script>
-import utils from '../utils'
-
-const baseUrl = '/api/users'
-
 export default {
-  name: 'users',
-  data: () => ({
-    users: [],
-  }),
-  async created () {
-    ({data: this.users} = await this.$http.get(baseUrl, {headers: utils.getHeaders()}))
+  name: 'users-list',
+  props: {
+    users: {
+      type: Array,
+      default: function () {
+        return []
+      },
+    },
   },
 }
 </script>
