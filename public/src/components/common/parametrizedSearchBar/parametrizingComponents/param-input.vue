@@ -1,18 +1,22 @@
 <template>
   <div>
-    param input
+    <b-form-input
+      :value="value"
+      @input="emitChange"
+      :placeholder="hintText"
+      type="text"
+    ></b-form-input>
   </div>
 </template>
 
 <script>
 export default {
   name: 'param-input',
-  data () {
-    return {}
-  },
+  props: ['value', 'hintText'],
   methods: {
-  },
-  components: {
+    emitChange (val) {
+      this.$emit('input', val)
+    },
   },
 }
 </script>

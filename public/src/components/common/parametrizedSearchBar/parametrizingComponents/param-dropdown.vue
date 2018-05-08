@@ -1,18 +1,17 @@
 <template>
   <div>
-    param dropdown
+    <b-form-select :options="additionalProps.options" :value="value" @change="emitChange" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'param-dropdown',
-  data () {
-    return {}
-  },
+  name: 'param-input',
+  props: ['value', 'hintText', 'additionalProps'],
   methods: {
-  },
-  components: {
+    emitChange (val) {
+      this.$emit('input', val)
+    },
   },
 }
 </script>

@@ -1,18 +1,49 @@
 <template>
   <div>
-    param range input
+    <b-input-group>
+      <b-form-input
+        :value="value.startValue"
+        @input="startValChange"
+        :placeholder="hintText"
+        type="text"
+      ></b-form-input>
+      -დან
+
+      <b-form-input
+        :value="value.endValue"
+        @input="endValChange"
+        :placeholder="hintText"
+        type="text"
+      ></b-form-input>
+
+      -მდე
+    </b-input-group>
   </div>
 </template>
 
 <script>
 export default {
   name: 'param-range-input',
-  data () {
-    return {}
+  props: {
+    value: {
+      startValue: Number,
+      endValue: Number,
+    },
+    hintText: String,
   },
   methods: {
-  },
-  components: {
+    startValChange (val) {
+      this.$emit('input', {
+        startValue: val,
+        endValue: this.value.endValue,
+      })
+    },
+    endValChange (val) {
+      this.$emit('input', {
+        startValue: this.value.startValue,
+        endValue: val,
+      })
+    },
   },
 }
 </script>

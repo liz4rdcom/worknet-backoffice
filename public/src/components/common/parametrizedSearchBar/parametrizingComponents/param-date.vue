@@ -1,18 +1,22 @@
 <template>
   <div>
-    param date
+    <date-picker-dropdown :label="hintText" :value="value" @input="dateChanged" />
   </div>
 </template>
 
 <script>
+import datePickerDropdown from '../../date-picker-dropdown'
+
 export default {
   name: 'param-date',
-  data () {
-    return {}
-  },
+  props: ['value', 'hintText'],
   methods: {
+    dateChanged (val) {
+      this.$emit('input', val)
+    },
   },
   components: {
+    'date-picker-dropdown': datePickerDropdown,
   },
 }
 </script>

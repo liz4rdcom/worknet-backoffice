@@ -2,7 +2,7 @@
   <div>
     <b-form-group label="საძიებო სიტყვა">
       <b-input-group>
-          <b-form-input autofocus type="text" v-model="searchText"></b-form-input>
+        <b-form-input autofocus type="text" v-model="searchText"></b-form-input>
         <b-input-group-append>
           <b-button variant="secondary" @click="searchByText">ძებნა</b-button>
         </b-input-group-append>

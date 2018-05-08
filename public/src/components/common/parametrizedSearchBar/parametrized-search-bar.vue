@@ -1,5 +1,9 @@
 <template>
   <div class="parametrized-search-bar">
+    <!-- <pre>{{
+      JSON.stringify(paramCompList, null, 2)
+    }}</pre> -->
+
     <b-modal
       id="parametersAddingModal"
       title="პარამეტრები"
@@ -15,7 +19,7 @@
           </b-col>
 
           <b-col cols="2">
-            <b-button variant="secondary" @click="addParamComp(paramCategory.paramCompName)">+</b-button>
+            <b-button variant="secondary" @click="addParamComp(paramCategory)">+</b-button>
           </b-col>
         </b-row>
       </div>
@@ -25,7 +29,14 @@
       <b-col cols="5">
         <b-card title="პარამეტრები">
           <div v-for="(paramComp, index) in paramCompList" :key="index">
-            <component :is="paramComp"></component>
+            <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
+              <component
+                :is="paramComp.name"
+                v-model="paramComp.value"
+                :hintText="paramComp.hintText"
+                :additionalProps="paramComp.additionalProps"
+              />
+            </param-comp-enhancer>
           </div>
         </b-card>
       </b-col>
@@ -44,12 +55,13 @@
 </template>
 
 <script>
-import ParamCheckbox from './parametrizingComponents/param-checkbox'
-import ParamDate from './parametrizingComponents/param-date'
-import ParamDropdown from './parametrizingComponents/param-dropdown'
-import ParamInput from './parametrizingComponents/param-input'
-import ParamNumberInput from './parametrizingComponents/param-number-input'
-import ParamRangeInput from './parametrizingComponents/param-range-input'
+import paramCheckbox from './parametrizingComponents/param-checkbox'
+import paramDate from './parametrizingComponents/param-date'
+import paramDropdown from './parametrizingComponents/param-dropdown'
+import paramInput from './parametrizingComponents/param-input'
+import paramNumberInput from './parametrizingComponents/param-number-input'
+import paramRangeInput from './parametrizingComponents/param-range-input'
+import paramCompEnhancer from './param-comp-enhancer'
 
 export default {
   name: 'parametrized-search-bar',
@@ -60,17 +72,61 @@ export default {
     }
   },
   methods: {
-    addParamComp (paramCompName) {
-      this.paramCompList.push(paramCompName)
+    addParamComp ({text, paramCompName, additionalProps}) {
+      const newVal = {
+        hintText: text,
+        name: paramCompName,
+        active: true,
+        additionalProps,
+      }
+
+      switch (paramCompName) {
+        case 'param-checkbox':
+          newVal.value = true
+          break
+        case 'param-date':
+          newVal.value = null
+          break
+        case 'param-dropdown':
+          newVal.value = null
+          break
+        case 'param-input':
+          newVal.value = ''
+          break
+        case 'param-number-input':
+          newVal.value = {
+            comparSign: null,
+            numInput: null,
+          }
+          break
+        case 'param-range-input':
+          newVal.value = {
+            startValue: null,
+            endValue: null,
+          }
+          break
+        default:
+          return null
+      }
+
+      this.paramCompList.push(newVal)
+    },
+    removeParamComp (index) {
+      const listCopy = [...this.paramCompList]
+
+      listCopy.splice(index, 1)
+
+      this.paramCompList = listCopy
     },
   },
   components: {
-    'param-checkbox': ParamCheckbox,
-    'param-date': ParamDate,
-    'param-dropdown': ParamDropdown,
-    'param-input': ParamInput,
-    'param-number-input': ParamNumberInput,
-    'param-range-input': ParamRangeInput,
+    'param-checkbox': paramCheckbox,
+    'param-date': paramDate,
+    'param-dropdown': paramDropdown,
+    'param-input': paramInput,
+    'param-number-input': paramNumberInput,
+    'param-range-input': paramRangeInput,
+    'param-comp-enhancer': paramCompEnhancer,
   },
 }
 </script>
