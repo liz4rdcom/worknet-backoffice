@@ -5,7 +5,17 @@ const baseUrl = '/api/users'
 
 router.get('/', async (req, res, next) => {
   try {
-    let result = await userInteractor.getList()
+    let result = await userInteractor.getList(req.query.query)
+
+    next({result})
+  } catch (error) {
+    next({error})
+  }
+})
+
+router.get('/advancedSearch', async (req, res, next) => {
+  try {
+    let result = await userInteractor.advancedSearch(req.body)
 
     next({result})
   } catch (error) {
