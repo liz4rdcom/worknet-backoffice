@@ -1,8 +1,8 @@
 <template>
   <div class="parametrized-search-bar">
-    <pre>{{
+    <!-- <pre>{{
       JSON.stringify(paramCompList, null, 2)
-    }}</pre>
+    }}</pre> -->
 
     <b-modal
       id="parametersAddingModal"
@@ -27,8 +27,8 @@
 
     <b-row>
       <b-col cols="5">
-        <b-card title="პარამეტრები">
-          <div v-for="(paramComp, index) in paramCompList" :key="index">
+        <b-card title="პარამეტრები" class="param-card">
+          <div v-for="(paramComp, index) in mainParamComps" :key="index">
             <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
               <component
                 :is="paramComp.name"
@@ -42,7 +42,18 @@
       </b-col>
 
       <b-col cols="5">
-        <b-card title="დამატებითი პარამეტრები">bar</b-card>
+        <b-card title="დამატებითი პარამეტრები" class="param-card">
+          <div v-for="(paramComp, index) in additionalParamComps" :key="index">
+            <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
+              <component
+                :is="paramComp.name"
+                v-model="paramComp.value"
+                :hintText="paramComp.hintText"
+                :additionalProps="paramComp.additionalProps"
+              />
+            </param-comp-enhancer>
+          </div>
+        </b-card>
       </b-col>
 
       <b-col cols="2">
@@ -119,6 +130,14 @@ export default {
       this.paramCompList = listCopy
     },
   },
+  computed: {
+    mainParamComps () {
+      return this.paramCompList.filter(({ name }) => name !== 'param-checkbox')
+    },
+    additionalParamComps () {
+      return this.paramCompList.filter(({ name }) => name === 'param-checkbox')
+    },
+  },
   components: {
     'param-checkbox': paramCheckbox,
     'param-date': paramDate,
@@ -134,5 +153,8 @@ export default {
 <style scoped>
 .parametrized-search-bar {
   padding: 10px;
+}
+.param-card {
+  height: 100%;
 }
 </style>
