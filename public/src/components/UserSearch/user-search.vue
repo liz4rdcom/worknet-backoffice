@@ -1,5 +1,9 @@
 <template>
   <div>
+    <pre>{{
+      JSON.stringify(paramCompList, null, 2)
+    }}</pre>
+
     <b-form-group label="საძიებო სიტყვა">
       <b-input-group>
         <b-form-input autofocus type="text" v-model="searchText"></b-form-input>
@@ -17,7 +21,15 @@
     <b-card-header class="p-1">
       <b-btn block v-b-toggle.parametrizedSearch variant="info">პარამეტრიზებული ძებნა</b-btn>
       <b-collapse id="parametrizedSearch">
-          <user-parametrized-search-bar />
+        <b-row class="parametrized-search-bar-row">
+          <b-col cols="11">
+            <user-parametrized-search-bar v-model="paramCompList" />
+          </b-col>
+
+          <b-col cols="1">
+            <b-button variant="info" @click="advancedSearch">ძებნა</b-button>
+          </b-col>
+        </b-row>
       </b-collapse>
     </b-card-header>
 
@@ -43,6 +55,7 @@ export default {
         { text: 'ყველა', value: 'all' },
       ],
       durationRadioValue: 'one-week',
+      paramCompList: [],
       searchedList: [],
     }
   },
@@ -58,6 +71,90 @@ export default {
     boom (value) {
       console.log('duration radio changed, value: ', value)
     },
+    async advancedSearch () {
+      try {
+        const result = await this.$http.post('/api/users/advancedSearch', this.paramsForApi)
+
+        this.searchedList = result.data
+      } catch (error) {
+      }
+    },
+  },
+  computed: {
+    paramsForApi () {
+      // condition
+      // :
+      // ">"
+      // fieldName
+      // :
+      // "birthDate"
+      // fieldType
+      // :
+      // "date"
+      // value
+      // :
+      // 1525737600000
+
+      /*
+      switch (paramCompName) {
+        case 'param-checkbox':
+          newVal.value = true
+          break
+        case 'param-date':
+          newVal.value = {
+            comparSign: null,
+            dateVal: null,
+          }
+          break
+        case 'param-dropdown':
+          newVal.value = null
+          break
+        case 'param-input':
+          newVal.value = ''
+          break
+        case 'param-number-input':
+          newVal.value = {
+            comparSign: null,
+            numInput: null,
+          }
+          break
+        case 'param-range-input':
+          newVal.value = {
+            startValue: null,
+            endValue: null,
+          }
+          break
+        default:
+          return null
+      }
+      */
+
+      return this.paramCompList
+        .filter(({ active }) => active)
+        // aq unda dawero param-range-input -is dahandlva
+        .map(({ id, hintText, name, active, value, additionalProps }) => {
+          const retVal = {
+            fieldName: id,
+          }
+
+          if (value.comparSign) {
+            retVal.condition = value.comparSign
+
+            console.log(555, value)
+            if (value.dateVal) {
+              retVal.value = value.dateVal
+            } else {
+              retVal.value = value.numInput
+            }
+          } else {
+            retVal.value = value
+          }
+
+          // todo move this method maybe somewhere else, maybe in param-search-bar, or user-param-search-bar, think about it
+
+          return retVal
+        })
+    },
   },
   components: {
     'users-list': UsersList,
@@ -67,4 +164,7 @@ export default {
 </script>
 
 <style scoped>
+.parametrized-search-bar-row {
+  padding: 10px;
+}
 </style>

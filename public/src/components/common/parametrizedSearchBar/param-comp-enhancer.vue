@@ -1,11 +1,11 @@
 <template>
   <div class="param-comp-enhancer">
     <b-row>
-      <b-col cols=7 class="aaa">
+      <b-col cols="8">
         <slot />
       </b-col>
 
-      <b-col cols="3" class="aaa">
+      <b-col cols="3">
         <b-form-radio-group
           :checked="value"
           @change="emitChange"
@@ -15,7 +15,7 @@
         />
       </b-col>
 
-      <b-col cols="2" class="aaa">
+      <b-col cols="1">
         <b-button variant="danger" @click="removeClick">-</b-button>
       </b-col>
     </b-row>
@@ -48,8 +48,5 @@ export default {
 <style scoped>
 .param-comp-enhancer {
   padding: 20px
-}
-.aaa {
-  display: inline-block;
 }
 </style>

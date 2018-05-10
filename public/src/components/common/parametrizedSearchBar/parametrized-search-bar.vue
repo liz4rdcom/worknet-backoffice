@@ -1,9 +1,5 @@
 <template>
-  <div class="parametrized-search-bar">
-    <!-- <pre>{{
-      JSON.stringify(paramCompList, null, 2)
-    }}</pre> -->
-
+  <div>
     <b-modal
       id="parametersAddingModal"
       body-class="param-modal-body"
@@ -30,10 +26,10 @@
     </b-modal>
 
     <b-row>
-      <b-col cols="10">
+      <b-col cols="11">
         <b-card class="param-card">
           <div class="separate-param-columns">
-            <div v-for="(paramComp, index) in paramCompList" :key="index" class="param-comp-lint-elem">
+            <div v-for="(paramComp, index) in value" :key="index" class="param-comp-lint-elem">
               <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
                 <component
                   :is="paramComp.name"
@@ -44,13 +40,12 @@
               </param-comp-enhancer>
             </div>
           </div>
+          <h1 v-if="value.length === 0" class="param-placeholder">პარამეტრები</h1>
         </b-card>
       </b-col>
 
-      <b-col cols="2">
+      <b-col cols="1">
         <b-button variant="secondary" v-b-modal.parametersAddingModal>+</b-button>
-
-        <b-button variant="info">ძებნა</b-button>
       </b-col>
     </b-row>
   </div>
@@ -67,7 +62,7 @@ import paramCompEnhancer from './param-comp-enhancer'
 
 export default {
   name: 'parametrized-search-bar',
-  props: ['paramCategoryList'],
+  props: ['value', 'paramCategoryList'],
   data () {
     return {
       paramCompList: [],
@@ -115,14 +110,14 @@ export default {
           return null
       }
 
-      this.paramCompList.push(newVal)
+      this.$emit('input', [...this.value, newVal])
     },
     removeParamComp (index) {
-      const listCopy = [...this.paramCompList]
+      const valueCopy = [...this.value]
 
-      listCopy.splice(index, 1)
+      valueCopy.splice(index, 1)
 
-      this.paramCompList = listCopy
+      this.$emit('input', valueCopy)
     },
   },
   components: {
@@ -138,9 +133,6 @@ export default {
 </script>
 
 <style>
-.parametrized-search-bar {
-  padding: 10px;
-}
 .param-card {
   height: 100%;
 }
@@ -169,5 +161,8 @@ export default {
 }
 .param-comp-lint-elem {
   display: inline-block;
+}
+.param-placeholder {
+  opacity: 0.6;
 }
 </style>

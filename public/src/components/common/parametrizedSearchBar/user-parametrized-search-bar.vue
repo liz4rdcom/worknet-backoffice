@@ -1,6 +1,6 @@
 <template>
   <div>
-    <parametrized-search-bar :paramCategoryList="paramCategoryList"/>
+    <parametrized-search-bar :value="value" :paramCategoryList="paramCategoryList" @input="onInput"/>
   </div>
 </template>
 
@@ -9,11 +9,12 @@ import ParametrizedSearchBar from './parametrized-search-bar'
 
 export default {
   name: 'user-parametrized-search-bar',
+  props: ['value'],
   data () {
     return {
       paramCategoryList: [
-        { id: 'birthDate', text: 'ასაკი', paramCompName: 'param-range-input' },
-        { id: 'ageRange', text: 'დაბ.თარიღი', paramCompName: 'param-date' }, // two birth date conditions birthDate
+        { id: 'birthDate', text: 'დაბ.თარიღი', paramCompName: 'param-date' },
+        { id: 'ageRange', text: 'ასაკი', paramCompName: 'param-range-input' }, // two birth date conditions birthDate
         { id: 'registrationDate', text: 'რეგისტრაციის თარ.', paramCompName: 'param-date' },
         { id: 'desirableJobLocations.locationName', text: 'სასურველი სამს. რეგიონი', paramCompName: 'param-input' },
         { id: 'desirableJobLocations.locationUnitName', text: 'სასურველი სამს. რაიონი', paramCompName: 'param-input' },
@@ -56,6 +57,9 @@ export default {
     }
   },
   methods: {
+    onInput (val) {
+      this.$emit('input', val)
+    },
   },
   components: {
     'parametrized-search-bar': ParametrizedSearchBar,

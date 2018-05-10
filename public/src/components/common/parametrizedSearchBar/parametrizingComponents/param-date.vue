@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-row>
-      <b-col class="first-col" cols="4">
+      <b-col class="first-col" cols="3">
         <b-form-select :options="comparSignOptions" :value="value.comparSign" @change="comparSignChange" />
       </b-col>
 
-      <b-col class="second-col" cols="8">
+      <b-col class="second-col" cols="9">
         <date-picker-dropdown :label="hintText" :value="value.dateVal" @input="dateChanged" />
       </b-col>
     </b-row>
