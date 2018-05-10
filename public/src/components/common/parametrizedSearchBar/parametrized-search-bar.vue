@@ -1,8 +1,8 @@
 <template>
   <div class="parametrized-search-bar">
-    <pre>{{
+    <!-- <pre>{{
       JSON.stringify(paramCompList, null, 2)
-    }}</pre>
+    }}</pre> -->
 
     <b-modal
       id="parametersAddingModal"
@@ -33,7 +33,7 @@
       <b-col cols="10">
         <b-card class="param-card">
           <div class="separate-param-columns">
-            <div v-for="(paramComp, index) in paramCompList" :key="index" class="babula">
+            <div v-for="(paramComp, index) in paramCompList" :key="index" class="param-comp-lint-elem">
               <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
                 <component
                   :is="paramComp.name"
@@ -74,8 +74,9 @@ export default {
     }
   },
   methods: {
-    addParamComp ({text, paramCompName, additionalProps}) {
+    addParamComp ({id, text, paramCompName, additionalProps}) {
       const newVal = {
+        id,
         hintText: text,
         name: paramCompName,
         active: true,
@@ -166,7 +167,7 @@ export default {
   column-count: 2;
   column-gap: 20px;
 }
-.babula {
+.param-comp-lint-elem {
   display: inline-block;
 }
 </style>
