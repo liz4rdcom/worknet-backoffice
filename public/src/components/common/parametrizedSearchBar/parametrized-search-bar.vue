@@ -1,8 +1,8 @@
 <template>
   <div class="parametrized-search-bar">
-    <!-- <pre>{{
+    <pre>{{
       JSON.stringify(paramCompList, null, 2)
-    }}</pre> -->
+    }}</pre>
 
     <b-modal
       id="parametersAddingModal"

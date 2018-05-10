@@ -1,13 +1,19 @@
 <template>
   <div>
-    <b-form-select :options="comparSignOptions" :value="value.comparSign" @change="comparSignChange" />
+    <b-row>
+      <b-col class="first-col" cols="5">
+          <b-form-select :options="comparSignOptions" :value="value.comparSign" @change="comparSignChange" />
+      </b-col>
 
-    <b-form-input
-      :value="value.numInput"
-      @input="inputChange"
-      :placeholder="hintText"
-      type="number"
-    ></b-form-input>
+      <b-col class="second-col" cols="7">
+        <b-form-input
+          :value="value.numInput"
+          @input="inputChange"
+          :placeholder="hintText"
+          type="number"
+        ></b-form-input>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -50,4 +56,12 @@ export default {
 </script>
 
 <style scoped>
+.first-col {
+  padding-left: 2px;
+  padding-right: 4px;
+}
+.second-col {
+  padding-left: 0px;
+  padding-right: 2px;
+}
 </style>
