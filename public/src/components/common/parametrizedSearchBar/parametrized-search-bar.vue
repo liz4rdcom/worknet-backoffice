@@ -14,7 +14,7 @@
       hide-footer
       centered
     >
-      <div class="separate-columns">
+      <div class="separate-modal-columns">
         <div v-for="paramCategory in paramCategoryList" :key="paramCategory.id" class="modal-list-item">
           <b-row>
             <b-col cols="10">
@@ -30,32 +30,19 @@
     </b-modal>
 
     <b-row>
-      <b-col cols="5">
-        <b-card title="პარამეტრები" class="param-card">
-          <div v-for="(paramComp, index) in mainParamComps" :key="index">
-            <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
-              <component
-                :is="paramComp.name"
-                v-model="paramComp.value"
-                :hintText="paramComp.hintText"
-                :additionalProps="paramComp.additionalProps"
-              />
-            </param-comp-enhancer>
-          </div>
-        </b-card>
-      </b-col>
-
-      <b-col cols="5">
-        <b-card title="დამატებითი პარამეტრები" class="param-card">
-          <div v-for="(paramComp, index) in additionalParamComps" :key="index">
-            <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
-              <component
-                :is="paramComp.name"
-                v-model="paramComp.value"
-                :hintText="paramComp.hintText"
-                :additionalProps="paramComp.additionalProps"
-              />
-            </param-comp-enhancer>
+      <b-col cols="10">
+        <b-card class="param-card">
+          <div class="separateparam-columns">
+            <div v-for="(paramComp, index) in paramCompList" :key="index">
+              <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
+                <component
+                  :is="paramComp.name"
+                  v-model="paramComp.value"
+                  :hintText="paramComp.hintText"
+                  :additionalProps="paramComp.additionalProps"
+                />
+              </param-comp-enhancer>
+            </div>
           </div>
         </b-card>
       </b-col>
@@ -135,12 +122,12 @@ export default {
     },
   },
   computed: {
-    mainParamComps () {
-      return this.paramCompList.filter(({ name }) => name !== 'param-checkbox')
-    },
-    additionalParamComps () {
-      return this.paramCompList.filter(({ name }) => name === 'param-checkbox')
-    },
+    // mainParamComps () {
+    //   return this.paramCompList.filter(({ name }) => name !== 'param-checkbox')
+    // },
+    // additionalParamComps () {
+    //   return this.paramCompList.filter(({ name }) => name === 'param-checkbox')
+    // },
   },
   components: {
     'param-checkbox': paramCheckbox,
@@ -161,7 +148,7 @@ export default {
 .param-card {
   height: 100%;
 }
-.separate-columns {
+.separate-modal-columns {
   -moz-column-count: 2;
   -moz-column-gap: 20px;
   -webkit-column-count: 2;
@@ -175,5 +162,13 @@ export default {
 }
 .modal-list-item {
   padding: 5px;
+}
+.separateparam-columns {
+  -moz-column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 20px;
+  column-count: 2;
+  column-gap: 20px;
 }
 </style>
