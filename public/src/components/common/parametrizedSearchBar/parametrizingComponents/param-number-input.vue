@@ -2,7 +2,7 @@
   <div>
     <b-row>
       <b-col class="first-col" cols="5">
-          <b-form-select :options="comparSignOptions" :value="value.comparSign" @change="comparSignChange" />
+        <b-form-select :options="comparSignOptions" :value="value.comparSign" @change="comparSignChange" />
       </b-col>
 
       <b-col class="second-col" cols="7">

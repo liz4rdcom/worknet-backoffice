@@ -12,7 +12,7 @@ export default {
   data () {
     return {
       paramCategoryList: [
-        { id: 1, text: 'სურს დას. ხელშ. სამს. დახმარება', paramCompName: 'param-dropdown', additionalProps: {options: [{text: 'text 1', value: 'value1'}, {text: 'text 2', value: 'value2'}, {text: 'text 3', value: 'value3'}]} }, // param-checkbox
+        { id: 1, text: 'სურს დას. ხელშ. სამს. დახმარება', paramCompName: 'param-checkbox' }, // paramCompName: 'param-dropdown', additionalProps: {options: [{text: 'text 1', value: 'value1'}, {text: 'text 2', value: 'value2'}, {text: 'text 3', value: 'value3'}]}
         { id: 2, text: 'ასაკი', paramCompName: 'param-range-input' },
         { id: 3, text: 'დაბ.თარიღი', paramCompName: 'param-date' },
         { id: 4, text: 'რეგისტრაციის თარ.', paramCompName: 'param-date' },

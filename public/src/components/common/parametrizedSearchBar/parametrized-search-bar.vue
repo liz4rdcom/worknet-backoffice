@@ -1,8 +1,8 @@
 <template>
   <div class="parametrized-search-bar">
-    <!-- <pre>{{
+    <pre>{{
       JSON.stringify(paramCompList, null, 2)
-    }}</pre> -->
+    }}</pre>
 
     <b-modal
       id="parametersAddingModal"
@@ -32,8 +32,8 @@
     <b-row>
       <b-col cols="10">
         <b-card class="param-card">
-          <div class="separateparam-columns">
-            <div v-for="(paramComp, index) in paramCompList" :key="index">
+          <div class="separate-param-columns">
+            <div v-for="(paramComp, index) in paramCompList" :key="index" class="babula">
               <param-comp-enhancer @removeClick="removeParamComp(index)" v-model="paramComp.active">
                 <component
                   :is="paramComp.name"
@@ -87,7 +87,10 @@ export default {
           newVal.value = true
           break
         case 'param-date':
-          newVal.value = null
+          newVal.value = {
+            comparSign: null,
+            dateVal: null,
+          }
           break
         case 'param-dropdown':
           newVal.value = null
@@ -120,14 +123,6 @@ export default {
 
       this.paramCompList = listCopy
     },
-  },
-  computed: {
-    // mainParamComps () {
-    //   return this.paramCompList.filter(({ name }) => name !== 'param-checkbox')
-    // },
-    // additionalParamComps () {
-    //   return this.paramCompList.filter(({ name }) => name === 'param-checkbox')
-    // },
   },
   components: {
     'param-checkbox': paramCheckbox,
@@ -163,12 +158,15 @@ export default {
 .modal-list-item {
   padding: 5px;
 }
-.separateparam-columns {
+.separate-param-columns {
   -moz-column-count: 2;
   -moz-column-gap: 20px;
   -webkit-column-count: 2;
   -webkit-column-gap: 20px;
   column-count: 2;
   column-gap: 20px;
+}
+.babula {
+  display: inline-block;
 }
 </style>
