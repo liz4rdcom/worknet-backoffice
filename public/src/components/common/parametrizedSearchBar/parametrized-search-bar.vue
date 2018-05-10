@@ -6,22 +6,26 @@
 
     <b-modal
       id="parametersAddingModal"
+      body-class="param-modal-body"
       title="პარამეტრები"
       header-bg-variant="info"
       header-text-variant="light"
+      size="lg"
       hide-footer
       centered
     >
-      <div v-for="paramCategory in paramCategoryList" :key="paramCategory.id">
-        <b-row>
-          <b-col cols="10">
-            {{paramCategory.text}}
-          </b-col>
+      <div class="separate-columns">
+        <div v-for="paramCategory in paramCategoryList" :key="paramCategory.id" class="modal-list-item">
+          <b-row>
+            <b-col cols="10">
+              {{paramCategory.text}}
+            </b-col>
 
-          <b-col cols="2">
-            <b-button variant="secondary" @click="addParamComp(paramCategory)">+</b-button>
-          </b-col>
-        </b-row>
+            <b-col cols="2">
+              <b-button variant="secondary" @click="addParamComp(paramCategory)">+</b-button>
+            </b-col>
+          </b-row>
+        </div>
       </div>
     </b-modal>
 
@@ -150,11 +154,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .parametrized-search-bar {
   padding: 10px;
 }
 .param-card {
   height: 100%;
+}
+.separate-columns {
+  -moz-column-count: 2;
+  -moz-column-gap: 20px;
+  -webkit-column-count: 2;
+  -webkit-column-gap: 20px;
+  column-count: 2;
+  column-gap: 20px;
+}
+.param-modal-body {
+  height: 500px;
+  overflow-y: auto;
+}
+.modal-list-item {
+  padding: 5px;
 }
 </style>
