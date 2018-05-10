@@ -12,5 +12,4 @@
 git checkout -b 7/users-search
 ```
 
-#### Docker კონტეინერი (elasticsearch)
-worknet-ის გამოიყენე
+### მონაცემები უნდა წაიკითხოს worknet_ის მონაცემთა ბაზიდან.
