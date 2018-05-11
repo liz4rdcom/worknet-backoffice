@@ -42,6 +42,7 @@
 <script>
 import UsersList from '../../components/users-list'
 import UserParametrizedSearchBar from '../../components/common/parametrizedSearchBar/user-parametrized-search-bar'
+import utils from '../../utils'
 
 export default {
   name: 'user-search',
@@ -82,78 +83,7 @@ export default {
   },
   computed: {
     paramsForApi () {
-      // condition
-      // :
-      // ">"
-      // fieldName
-      // :
-      // "birthDate"
-      // fieldType
-      // :
-      // "date"
-      // value
-      // :
-      // 1525737600000
-
-      /*
-      switch (paramCompName) {
-        case 'param-checkbox':
-          newVal.value = true
-          break
-        case 'param-date':
-          newVal.value = {
-            comparSign: null,
-            dateVal: null,
-          }
-          break
-        case 'param-dropdown':
-          newVal.value = null
-          break
-        case 'param-input':
-          newVal.value = ''
-          break
-        case 'param-number-input':
-          newVal.value = {
-            comparSign: null,
-            numInput: null,
-          }
-          break
-        case 'param-range-input':
-          newVal.value = {
-            startValue: null,
-            endValue: null,
-          }
-          break
-        default:
-          return null
-      }
-      */
-
-      return this.paramCompList
-        .filter(({ active }) => active)
-        // aq unda dawero param-range-input -is dahandlva
-        .map(({ id, hintText, name, active, value, additionalProps }) => {
-          const retVal = {
-            fieldName: id,
-          }
-
-          if (value.comparSign) {
-            retVal.condition = value.comparSign
-
-            console.log(555, value)
-            if (value.dateVal) {
-              retVal.value = value.dateVal
-            } else {
-              retVal.value = value.numInput
-            }
-          } else {
-            retVal.value = value
-          }
-
-          // todo move this method maybe somewhere else, maybe in param-search-bar, or user-param-search-bar, think about it
-
-          return retVal
-        })
+      return utils.userAdvancedSearchParamsToApi(this.paramCompList)
     },
   },
   components: {

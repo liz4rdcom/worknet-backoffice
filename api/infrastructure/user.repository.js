@@ -17,8 +17,6 @@ async function getUsers(queryString) {
     q: !queryString ? '*' : '*' + queryString + '*',
   }
 
-  console.log(queryString, options)
-
   let result = await client.search(options)
 
   return result.hits.hits.map(utils.toObject)

@@ -14,7 +14,65 @@ const getRangeNumberArray = (start, end) => {
   return retVal
 }
 
+const userAdvancedSearchParamsToApi = userAdvancedSearchParamsList => (
+  userAdvancedSearchParamsList
+    .filter(({ active }) => active)
+    .reduce((acc, curr) => {
+      if (curr.id === 'ageRange') {
+        let retVal = [...acc]
+
+        const nowDate = new Date()
+
+        if (curr.value.startValue) {
+          retVal = [...retVal, {
+            id: 'birthDate',
+            name: 'param-date',
+            value: {
+              comparSign: '<=',
+              dateVal: new Date(nowDate.getFullYear() - curr.value.startValue, nowDate.getMonth(), nowDate.getDate()).toISOString(),
+            },
+          }]
+        }
+
+        if (curr.value.endValue) {
+          retVal = [...retVal, {
+            id: 'birthDate',
+            name: 'param-date',
+            value: {
+              comparSign: '>=',
+              dateVal: new Date(nowDate.getFullYear() - curr.value.endValue, nowDate.getMonth(), nowDate.getDate()).toISOString(),
+            },
+          }]
+        }
+
+        return retVal
+      }
+
+      return [...acc, curr]
+    }, [])
+    .map(({ id, name, value, additionalProps }) => {
+      const retVal = {
+        fieldName: id,
+      }
+
+      if (value.comparSign) {
+        retVal.condition = value.comparSign
+
+        if (value.dateVal) {
+          retVal.value = value.dateVal
+        } else {
+          retVal.value = value.numInput
+        }
+      } else {
+        retVal.value = value
+      }
+
+      return retVal
+    })
+)
+
 export default {
   getHeaders,
   getRangeNumberArray,
+  userAdvancedSearchParamsToApi,
 }

@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 function toObject(elasticHit) {
   let object = elasticHit._source
 
@@ -6,11 +8,13 @@ function toObject(elasticHit) {
   return object
 }
 
+const stringIsProbablyDouble = str => /^[0-9e.]+$/.test(str)
+
 function isValidDate(date) {
-  return !Number(date) && new Date(date).toString() !== 'Invalid Date'
+  return _.isString(date) && new Date(date).toString() !== 'Invalid Date' && !Number.isInteger(date) && !stringIsProbablyDouble(date)
 }
 
-function buildElasticParametersQuery(parameters) { // todo date validation
+function buildElasticParametersQuery(parameters) {
   var queryStringArray = []
 
   for (var i = 0; i < parameters.length; i++) {

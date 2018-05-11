@@ -12,6 +12,13 @@ const desirableTrainings = require('./routes/desirable.trainings')
 const libs = require('./routes/libs')
 
 app.use(bodyParser.json())
+
+app.use(function (req, res, next) {
+  console.log(req.body);
+
+  next();
+})
+
 app.use(bodyParser.urlencoded({
   extended: false,
 }))

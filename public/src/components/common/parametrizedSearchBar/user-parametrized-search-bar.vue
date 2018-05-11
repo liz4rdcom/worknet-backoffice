@@ -14,7 +14,7 @@ export default {
     return {
       paramCategoryList: [
         { id: 'birthDate', text: 'დაბ.თარიღი', paramCompName: 'param-date' },
-        { id: 'ageRange', text: 'ასაკი', paramCompName: 'param-range-input' }, // two birth date conditions birthDate
+        { id: 'ageRange', text: 'ასაკი', paramCompName: 'param-range-input' },
         { id: 'registrationDate', text: 'რეგისტრაციის თარ.', paramCompName: 'param-date' },
         { id: 'desirableJobLocations.locationName', text: 'სასურველი სამს. რეგიონი', paramCompName: 'param-input' },
         { id: 'desirableJobLocations.locationUnitName', text: 'სასურველი სამს. რაიონი', paramCompName: 'param-input' },
