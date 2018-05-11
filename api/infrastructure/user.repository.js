@@ -35,13 +35,41 @@ async function getById(id) {
 }
 
 async function advancedSearch(params = []) {
-  let andBasedquery = utils.buildElasticParametersQuery(params)
+  const textQuery = params.find(({ fieldName }) => fieldName === '$text$')
+  const advancedParams = params.filter(({ fieldName }) => fieldName !== '$text$')
+
+  let andBasedquery = utils.buildElasticParametersQuery(advancedParams)
 
   const options = {
     index,
     type,
-    q: andBasedquery,
+    body: {
+      query: {
+        bool: {
+          must: [],
+        },
+      },
+    },
+    size: 1000,
   }
+
+  if (textQuery) {
+    options.body.query.bool.must.push({
+      'query_string': {
+        query: textQuery.value,
+      },
+    })
+  }
+
+  if (advancedParams.length !== 0) {
+    options.body.query.bool.must.push({
+      'query_string': {
+        query: andBasedquery,
+      },
+    })
+  }
+
+  console.dir(options.body.query.bool, {depth: null})
 
   let result = await client.search(options)
 

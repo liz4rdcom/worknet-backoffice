@@ -29,7 +29,7 @@ const userAdvancedSearchParamsToApi = userAdvancedSearchParamsList => (
             name: 'param-date',
             value: {
               comparSign: '<=',
-              dateVal: new Date(nowDate.getFullYear() - curr.value.startValue, nowDate.getMonth(), nowDate.getDate()).toISOString(),
+              dateVal: new Date(nowDate.getFullYear() - curr.value.startValue, nowDate.getMonth(), nowDate.getDate()).toString(),
             },
           }]
         }
@@ -40,7 +40,7 @@ const userAdvancedSearchParamsToApi = userAdvancedSearchParamsList => (
             name: 'param-date',
             value: {
               comparSign: '>=',
-              dateVal: new Date(nowDate.getFullYear() - curr.value.endValue, nowDate.getMonth(), nowDate.getDate()).toISOString(),
+              dateVal: new Date(nowDate.getFullYear() - curr.value.endValue, nowDate.getMonth(), nowDate.getDate()).toString(),
             },
           }]
         }
@@ -71,8 +71,24 @@ const userAdvancedSearchParamsToApi = userAdvancedSearchParamsList => (
     })
 )
 
+const getConditionalValue = (...checkArgs) => (...resultArgs) => k => {
+  if (checkArgs.length !== resultArgs.length || checkArgs.length === 0) {
+    return undefined
+  }
+
+  let i
+  for (i = 0; i < checkArgs.length; i++) {
+    if (checkArgs[i] === k) {
+      return resultArgs[i]
+    }
+  }
+
+  return undefined
+}
+
 export default {
   getHeaders,
   getRangeNumberArray,
   userAdvancedSearchParamsToApi,
+  getConditionalValue,
 }

@@ -5,6 +5,7 @@ const baseUrl = '/api/users'
 
 router.get('/', async (req, res, next) => {
   try {
+    console.log(555, req.query)
     let result = await userInteractor.getList(req.query.query)
 
     next({result})
