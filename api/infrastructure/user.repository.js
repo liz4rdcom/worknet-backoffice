@@ -69,8 +69,6 @@ async function advancedSearch(params = []) {
     })
   }
 
-  console.dir(options.body.query.bool, {depth: null})
-
   let result = await client.search(options)
 
   return result.hits.hits.map(utils.toObject)

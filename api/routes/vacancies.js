@@ -27,7 +27,7 @@ router.get('/own', async (req, res, next) => {
   }
 })
 
-router.get('/advancedSearch', async (req, res, next) => {
+router.post('/advancedSearch', async (req, res, next) => {
   try {
     let result = await vacancyInteractor.advancedSearch(req.body)
 
