@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/advancedSearch', async (req, res, next) => {
+router.post('/advancedSearch', async (req, res, next) => {
   try {
     let result = await userInteractor.advancedSearch(req.body)
 
