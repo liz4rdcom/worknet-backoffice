@@ -59,7 +59,7 @@ export default {
         { text: '1 თვე', value: 'one-month' },
         { text: 'ყველა', value: 'all' },
       ],
-      durationRadioValue: 'one-week',
+      durationRadioValue: 'all',
       paramCompList: [],
       searchedList: [],
       lastSearchConfig: {

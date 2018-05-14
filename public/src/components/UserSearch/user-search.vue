@@ -6,7 +6,7 @@
 
     <b-form-group label="საძიებო სიტყვა">
       <b-input-group>
-        <b-form-input autofocus type="text" v-model="searchText"></b-form-input>
+        <b-form-input autofocus type="text" v-model="searchText" v-on:keyup.enter.native="searchByText"></b-form-input>
         <b-input-group-append>
           <b-button variant="secondary" @click="searchByText">ძებნა</b-button>
         </b-input-group-append>
@@ -59,7 +59,7 @@ export default {
         { text: '1 თვე', value: 'one-month' },
         { text: 'ყველა', value: 'all' },
       ],
-      durationRadioValue: 'one-week',
+      durationRadioValue: 'all',
       paramCompList: [],
       searchedList: [],
       lastSearchConfig: {

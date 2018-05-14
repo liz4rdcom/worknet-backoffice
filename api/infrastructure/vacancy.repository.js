@@ -63,7 +63,7 @@ async function advancedSearch(params = []) {
         },
       },
     },
-    size: 1000,
+    size: 30,
   }
 
   if (textQuery) {
