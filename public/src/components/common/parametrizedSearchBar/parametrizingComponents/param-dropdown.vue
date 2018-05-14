@@ -5,7 +5,9 @@
 </template>
 
 <script>
-// paramCompName: 'param-dropdown', additionalProps: {options: [{text: 'text 1', value: 'value1'}, {text: 'text 2', value: 'value2'}, {text: 'text 3', value: 'value3'}]}
+/*
+additionalProps: {options: [{text: 'text 1', value: 'value1'}, {text: 'text 2', value: 'value2'}, {text: 'text 3', value: 'value3'}]}
+*/
 
 export default {
   name: 'param-input',

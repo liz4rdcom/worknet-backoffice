@@ -63,13 +63,43 @@ const userAdvancedSearchParamsToApi = userAdvancedSearchParamsList => (
         } else {
           retVal.value = value.numInput
         }
-      } else {
+      } else if (value.comparSign !== null) {
         retVal.value = value
       }
 
       return retVal
     })
 )
+
+const vacancyAdvancedSearchParamsToApi = vacancyAdvancedSearchParamsList => {
+  console.log('bbb', vacancyAdvancedSearchParamsList)
+
+  const aaa = vacancyAdvancedSearchParamsList
+    .filter(({ active }) => active)
+    .map(({ id, name, value, additionalProps }) => {
+      const retVal = {
+        fieldName: id,
+      }
+
+      if (value.comparSign) {
+        retVal.condition = value.comparSign
+
+        if (value.dateVal) {
+          retVal.value = value.dateVal
+        } else {
+          retVal.value = value.numInput
+        }
+      } else if (value.comparSign !== null) {
+        retVal.value = value
+      }
+
+      return retVal
+    })
+
+  console.log('aaaaaaaaaaaaa', aaa)
+
+  return aaa
+}
 
 const getConditionalValue = (...checkArgs) => (...resultArgs) => k => {
   if (checkArgs.length !== resultArgs.length || checkArgs.length === 0) {
@@ -90,5 +120,6 @@ export default {
   getHeaders,
   getRangeNumberArray,
   userAdvancedSearchParamsToApi,
+  vacancyAdvancedSearchParamsToApi,
   getConditionalValue,
 }
