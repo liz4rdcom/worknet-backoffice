@@ -50,7 +50,7 @@ async function advancedSearch(params = []) {
         },
       },
     },
-    size: 1000,
+    size: 30,
   }
 
   if (textQuery) {
@@ -68,8 +68,6 @@ async function advancedSearch(params = []) {
       },
     })
   }
-
-  console.dir(options.body.query.bool, {depth: null})
 
   let result = await client.search(options)
 

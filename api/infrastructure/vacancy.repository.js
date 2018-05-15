@@ -48,12 +48,38 @@ async function getByAuthorUserName(userName) {
 }
 
 async function advancedSearch(params = []) {
-  let andBasedquery = utils.buildElasticParametersQuery(params)
+  const textQuery = params.find(({ fieldName }) => fieldName === '$text$')
+  const advancedParams = params.filter(({ fieldName }) => fieldName !== '$text$')
+
+  let andBasedquery = utils.buildElasticParametersQuery(advancedParams)
 
   const options = {
     index,
     type,
-    q: andBasedquery,
+    body: {
+      query: {
+        bool: {
+          must: [],
+        },
+      },
+    },
+    size: 30,
+  }
+
+  if (textQuery) {
+    options.body.query.bool.must.push({
+      'query_string': {
+        query: textQuery.value,
+      },
+    })
+  }
+
+  if (advancedParams.length !== 0) {
+    options.body.query.bool.must.push({
+      'query_string': {
+        query: andBasedquery,
+      },
+    })
   }
 
   let result = await client.search(options)

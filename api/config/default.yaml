@@ -1,4 +1,4 @@
-port: 3000
+port: 3001
 elastic:
   host: 'localhost:9200'
   usersIndex: 'user'
@@ -16,10 +16,10 @@ elastic:
   libIndex: 'location'
   locationType: 'location'
   educationTypesIndex: 'educationtype'
-  educationTypesType: 'educationType'
+  educationTypesType: 'educationtype'
   educationLevelIndex: 'educationlevel'
-  educationLevelType: 'educationLevel'
+  educationLevelType: 'educationlevel'
   formalEducationLevelIndex: 'formaleducationlevel'
-  formalEducationLevelType: 'formalEducationLevel'
+  formalEducationLevelType: 'formaleducationlevel'
   languagesIndex: 'languages'
   languagesType: 'languages'

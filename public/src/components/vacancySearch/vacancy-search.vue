@@ -23,7 +23,7 @@
       <b-collapse id="parametrizedSearch">
         <b-row class="parametrized-search-bar-row">
           <b-col cols="11">
-            <user-parametrized-search-bar v-model="paramCompList" />
+            <vacancy-parametrized-search-bar v-model="paramCompList" />
           </b-col>
 
           <b-col cols="1">
@@ -35,13 +35,13 @@
 
     <div>სულ ნაპოვნია {{searchedList.length}} ჩანაწერი</div>
 
-    <users-list :users="searchedList"/>
+    <vacancies-list :vacancies="searchedList"/>
   </div>
 </template>
 
 <script>
-import UsersList from '../../components/users-list'
-import UserParametrizedSearchBar from '../../components/common/parametrizedSearchBar/user-parametrized-search-bar'
+import VacanciesList from '../../components/vacancies-list'
+import VacancyParametrizedSearchBar from '../../components/common/parametrizedSearchBar/vacancy-parametrized-search-bar'
 import utils from '../../utils'
 
 const millisecondsInDay = 1000 * 60 * 60 * 24
@@ -49,7 +49,7 @@ const millisecondsInWeek = millisecondsInDay * 7
 const millisecondsInMonth = millisecondsInDay * 30
 
 export default {
-  name: 'user-search',
+  name: 'vacancy-search',
   data () {
     return {
       searchText: '',
@@ -71,7 +71,7 @@ export default {
   methods: {
     async searchByText () {
       try {
-        const result = await this.$http.post('/api/users/advancedSearch', [{fieldName: '$text$', value: this.searchText}])
+        const result = await this.$http.post('/api/vacancies/advancedSearch', [{fieldName: '$text$', value: this.searchText}])
 
         this.lastSearchConfig = {
           searchType: 0,
@@ -84,7 +84,7 @@ export default {
     },
     async advancedSearch () {
       try {
-        const result = await this.$http.post('/api/users/advancedSearch', this.paramsForApi)
+        const result = await this.$http.post('/api/vacancies/advancedSearch', this.paramsForApi)
 
         this.lastSearchConfig = {
           searchType: 1,
@@ -112,11 +112,11 @@ export default {
             millisecondsInDay, millisecondsInWeek, millisecondsInMonth
           )(value)).toISOString()
 
-          advancedSearchParams.push({fieldName: 'registrationDate', value: durRestricDate, condition: '>='})
+          advancedSearchParams.push({fieldName: 'publishDate', value: durRestricDate, condition: '>='})
         }
 
         try {
-          const result = await this.$http.post('/api/users/advancedSearch', advancedSearchParams)
+          const result = await this.$http.post('/api/vacancies/advancedSearch', advancedSearchParams)
 
           this.searchedList = result.data
         } catch (error) {}
@@ -125,12 +125,12 @@ export default {
   },
   computed: {
     paramsForApi () {
-      return utils.userAdvancedSearchParamsToApi(this.paramCompList)
+      return utils.vacancyAdvancedSearchParamsToApi(this.paramCompList)
     },
   },
   components: {
-    'users-list': UsersList,
-    'user-parametrized-search-bar': UserParametrizedSearchBar,
+    'vacancies-list': VacanciesList,
+    'vacancy-parametrized-search-bar': VacancyParametrizedSearchBar,
   },
 }
 </script>
