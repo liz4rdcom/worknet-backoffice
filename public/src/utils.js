@@ -1,7 +1,7 @@
 function getHeaders () {
-  return {
-    username: 'root',
-  }
+  // todo
+
+  return {}
 }
 
 const getRangeNumberArray = (start, end) => {
