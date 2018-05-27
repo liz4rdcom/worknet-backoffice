@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import userSearch from '../components/userSearch/user-search'
 import vacancySearch from '../components/vacancySearch/vacancy-search'
+import login from '../components/um/login'
 
 Vue.use(Router)
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/hello-world',
       name: 'HelloWorld',
       component: HelloWorld,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
     },
     {
       path: '/user-search',

@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken')
+
 function getUserNameFromRequest(req) {
-  return req.headers.username
+  return jwt.decode(req.headers.authorization).user
 }
 
 module.exports = {

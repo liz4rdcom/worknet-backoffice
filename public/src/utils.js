@@ -1,6 +1,8 @@
+import Cookies from 'js-cookie'
+
 function getHeaders () {
   return {
-    username: 'root',
+    authorization: Cookies.get('token'),
   }
 }
 
@@ -116,10 +118,13 @@ const getConditionalValue = (...checkArgs) => (...resultArgs) => k => {
   return undefined
 }
 
+const isValidEmail = str => /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}/i.test(str)
+
 export default {
   getHeaders,
   getRangeNumberArray,
   userAdvancedSearchParamsToApi,
   vacancyAdvancedSearchParamsToApi,
   getConditionalValue,
+  isValidEmail,
 }

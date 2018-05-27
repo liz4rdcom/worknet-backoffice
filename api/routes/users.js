@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const userInteractor = require('../interactors/user.interactor')
+const isAuthorized = require('../umpack').isAuthorized
 
 const baseUrl = '/api/users'
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAuthorized, async (req, res, next) => {
   try {
     let result = await userInteractor.getList(req.query.query)
 
@@ -13,7 +14,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/advancedSearch', async (req, res, next) => {
+router.post('/advancedSearch', isAuthorized, async (req, res, next) => {
   try {
     let result = await userInteractor.advancedSearch(req.body)
 
@@ -23,7 +24,7 @@ router.post('/advancedSearch', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAuthorized, async (req, res, next) => {
   try {
     let result = await userInteractor.getById(req.params.id)
 

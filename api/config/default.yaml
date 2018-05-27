@@ -23,3 +23,10 @@ elastic:
   formalEducationLevelType: 'formaleducationlevel'
   languagesIndex: 'languages'
   languagesType: 'languages'
+um:
+  mongodbConnectionString: 'mongodb://localhost:27019/umpack'
+  accessTokenSecret: 'myrandomstring'
+  passwordHashSecret: 'mypasswordsecret'
+  accessTokenExpiresIn: '5h'
+  cookieAccessTokenName: 'accessToken'
+  activateOnSignup: true

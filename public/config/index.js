@@ -15,6 +15,10 @@ module.exports = {
         target: 'http://localhost:3001',
         secure: false,
       },
+      '/um': {
+        target: 'http://localhost:3001',
+        secure: false,
+      },
     },
 
     // Various Dev Server settings
