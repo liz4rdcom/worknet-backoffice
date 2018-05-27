@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const config = require('config')
+const umpack = require('./umpack')
 
 const app = express()
 
@@ -23,6 +24,8 @@ app.use(skills.baseUrl, skills.router)
 app.use(desirableJobs.baseUrl, desirableJobs.router)
 app.use(desirableTrainings.baseUrl, desirableTrainings.router)
 app.use(libs.baseUrl, libs.router)
+
+app.use('/um', umpack.router)
 
 app.use((response, req, res, next) => {
   // TODO logs

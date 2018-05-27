@@ -27,7 +27,8 @@
     "elasticsearch": "^14.2.2",
     "express": "^4.16.3",
     "js-yaml": "^3.11.0",
-    "shortid": "^2.2.8"
+    "shortid": "^2.2.8",
+    "umpack-express": "^1.16.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
