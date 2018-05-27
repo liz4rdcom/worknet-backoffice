@@ -4,8 +4,9 @@ const baseUrl = '/api/vacancies'
 
 const vacancyInteractor = require('../interactors/vacancy.interactor')
 const utils = require('../utils')
+const isAuthorized = require('../umpack').isAuthorized
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAuthorized, async (req, res, next) => {
   try {
     let result = await vacancyInteractor.getList(req.query.query)
 
@@ -15,7 +16,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/own', async (req, res, next) => {
+router.get('/own', isAuthorized, async (req, res, next) => {
   const userName = utils.getUserNameFromRequest(req)
 
   try {
@@ -27,7 +28,7 @@ router.get('/own', async (req, res, next) => {
   }
 })
 
-router.post('/advancedSearch', async (req, res, next) => {
+router.post('/advancedSearch', isAuthorized, async (req, res, next) => {
   try {
     let result = await vacancyInteractor.advancedSearch(req.body)
 
@@ -37,7 +38,7 @@ router.post('/advancedSearch', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAuthorized, async (req, res, next) => {
   try {
     let result = await vacancyInteractor.getById(req.params.id)
 

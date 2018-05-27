@@ -1,7 +1,9 @@
-function getHeaders () {
-  // todo
+import Cookies from 'js-cookie'
 
-  return {}
+function getHeaders () {
+  return {
+    authorization: Cookies.get('token'),
+  }
 }
 
 const getRangeNumberArray = (start, end) => {

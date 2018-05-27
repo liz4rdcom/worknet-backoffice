@@ -1,10 +1,11 @@
 const router = require('express').Router()
 
 const libRepository = require('../infrastructure/lib.repository')
+const isAuthorized = require('../umpack').isAuthorized
 
 const baseUrl = '/api/libs'
 
-router.get('/locationsOfGeorgia', async (req, res) => {
+router.get('/locationsOfGeorgia', isAuthorized, async (req, res) => {
   try {
     let result = await libRepository.getLocationsInGeorgia()
     res.send(result[0].locationsInGeorgia)
@@ -13,7 +14,7 @@ router.get('/locationsOfGeorgia', async (req, res) => {
   }
 })
 
-router.get('/educationTypes', async (req, res, next) => {
+router.get('/educationTypes', isAuthorized, async (req, res, next) => {
   try {
     let result = await libRepository.getEducationTypes()
 
@@ -23,7 +24,7 @@ router.get('/educationTypes', async (req, res, next) => {
   }
 })
 
-router.get('/educationLevels', async (req, res, next) => {
+router.get('/educationLevels', isAuthorized, async (req, res, next) => {
   try {
     let result = await libRepository.getEducationLevels()
 
@@ -33,7 +34,7 @@ router.get('/educationLevels', async (req, res, next) => {
   }
 })
 
-router.get('/formalEducationLevels', async (req, res, next) => {
+router.get('/formalEducationLevels', isAuthorized, async (req, res, next) => {
   try {
     let result = await libRepository.getFormalEducationLevels()
 
@@ -43,7 +44,7 @@ router.get('/formalEducationLevels', async (req, res, next) => {
   }
 })
 
-router.get('/languages', async (req, res, next) => {
+router.get('/languages', isAuthorized, async (req, res, next) => {
   try {
     let result = await libRepository.getLanguages()
 
