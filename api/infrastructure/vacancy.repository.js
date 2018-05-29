@@ -50,8 +50,6 @@ async function getByAuthorUserName(userName) {
 async function edit(id, vacancy) {
   const currentVacancy = await getById(id)
 
-  console.log('vvvvvvvvvvvvvvvv', currentVacancy)
-
   let options = {
     index,
     type,

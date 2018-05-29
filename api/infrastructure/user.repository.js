@@ -87,22 +87,9 @@ async function advancedSearch(params = []) {
   return result.hits.hits.map(utils.toObject)
 }
 
-async function approve(id) {
-  const options = {
-    index,
-    type,
-    id,
-  }
-
-  let result = await client.get(options)
-
-  return utils.toObject(result)
-}
-
 module.exports = {
   getUsers,
   getById,
   edit,
   advancedSearch,
-  approve,
 }
