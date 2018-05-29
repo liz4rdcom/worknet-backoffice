@@ -8,6 +8,13 @@
       </b-card-header>
       <b-collapse :id="vacancy.id" accordion="my-accordion" role="tabpanel">
         <b-card-body>
+          <b-form-checkbox
+            @change="setApproved($event, vacancy.id)"
+            :checked="vacancy.approvedByMediationService"
+          >
+            გადამოწმებულია
+          </b-form-checkbox>
+
           <h6 v-if="vacancy.organization"><label>დამსაქმებელი: &nbsp; </label><b>{{vacancy.organization}}</b></h6>
           <h6><label>მისამართი: &nbsp; </label><b>{{vacancy.addressLine}}</b></h6>
           <h6><label>განათლების რეკომენდირებული მინიმალური დონე: &nbsp; </label><b>{{vacancy.formalEducationLevelName}}</b></h6>
@@ -36,6 +43,13 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    async setApproved (checkboxValue, id) {
+      try {
+        await this.$http.put(`/api/vacancies/setApproved/${id}`, { value: checkboxValue })
+      } catch (e) {}
+    },
   },
 }
 </script>

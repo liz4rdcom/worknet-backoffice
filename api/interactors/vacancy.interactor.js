@@ -16,9 +16,14 @@ async function advancedSearch(params) {
   return await vacancyRepository.advancedSearch(params)
 }
 
+async function setApproved(id, value) {
+  return await vacancyRepository.edit(id, { approvedByMediationService: value })
+}
+
 module.exports = {
   getList,
   getUserVacancies,
   getById,
   advancedSearch,
+  setApproved,
 }
