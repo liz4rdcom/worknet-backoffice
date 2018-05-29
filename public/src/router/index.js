@@ -4,10 +4,12 @@ import HelloWorld from '@/components/HelloWorld'
 import userSearch from '../components/userSearch/user-search'
 import vacancySearch from '../components/vacancySearch/vacancy-search'
 import login from '../components/um/login'
+import Cookies from 'js-cookie'
+import { bus } from '../components/common/bus'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
@@ -35,3 +37,28 @@ export default new Router({
     },
   ],
 })
+
+router.beforeEach(async (to, from, next) => {
+  if (!Cookies.get('token')) {
+    bus.$emit('logout')
+
+    if (to.path === '/login') {
+      next()
+
+      return
+    }
+
+    next('/login')
+    return
+  }
+
+  if (to.path === '/login') {
+    next('/user-search')
+
+    return
+  }
+
+  next()
+})
+
+export default router
