@@ -48,6 +48,16 @@ router.get('/:id', isAuthorized, async (req, res, next) => {
   }
 })
 
+router.put('/setApproved/:id', isAuthorized, async (req, res, next) => {
+  try {
+    let result = await vacancyInteractor.setApproved(req.params.id, req.body.value)
+
+    next({ result })
+  } catch (error) {
+    next({ error })
+  }
+})
+
 module.exports = {
   router,
   baseUrl,

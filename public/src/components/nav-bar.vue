@@ -36,7 +36,6 @@ import { bus } from './common/bus'
 export default {
   name: 'navbar',
   props: ['loggedIn'],
-  data: () => ({}),
   created () {},
   methods: {
     logout () {

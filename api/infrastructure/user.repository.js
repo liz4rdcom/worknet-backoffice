@@ -34,6 +34,19 @@ async function getById(id) {
   return utils.toObject(result)
 }
 
+async function edit(id, user) {
+  const currentUser = await getById(id)
+
+  let options = {
+    index,
+    type,
+    body: { ...currentUser, ...user },
+    id: id,
+  }
+
+  await client.index(options)
+}
+
 async function advancedSearch(params = []) {
   const textQuery = params.find(({ fieldName }) => fieldName === '$text$')
   const advancedParams = params.filter(({ fieldName }) => fieldName !== '$text$')
@@ -77,5 +90,6 @@ async function advancedSearch(params = []) {
 module.exports = {
   getUsers,
   getById,
+  edit,
   advancedSearch,
 }

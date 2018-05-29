@@ -8,6 +8,13 @@
       </b-card-header>
       <b-collapse :id="user.id" accordion="my-accordion" role="tabpanel">
         <b-card-body>
+          <b-form-checkbox
+            @change="setApproved($event, user.id)"
+            :checked="user.approvedByMediationService"
+          >
+            გადამოწმებულია
+          </b-form-checkbox>
+
           <h6><label>ფაქტ. რეგიონი: &nbsp; </label><b>{{user.factLocationName}}</b></h6>
           <h6><label>ფაქტ. რაიონი: &nbsp; </label><b>{{user.factLocationUnitName}}</b></h6>
           <h6><label>ფაქტ. მისამართი: &nbsp; </label><b>{{user.factAddressDescription}}</b></h6>
@@ -32,6 +39,13 @@ export default {
       default: function () {
         return []
       },
+    },
+  },
+  methods: {
+    async setApproved (checkboxValue, id) {
+      try {
+        await this.$http.put(`/api/users/setApproved/${id}`, { value: checkboxValue })
+      } catch (e) {}
     },
   },
 }

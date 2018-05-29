@@ -47,6 +47,19 @@ async function getByAuthorUserName(userName) {
   return result.hits.hits.map(utils.toObject)
 }
 
+async function edit(id, vacancy) {
+  const currentVacancy = await getById(id)
+
+  let options = {
+    index,
+    type,
+    body: { ...currentVacancy, ...vacancy },
+    id: id,
+  }
+
+  await client.index(options)
+}
+
 async function advancedSearch(params = []) {
   const textQuery = params.find(({ fieldName }) => fieldName === '$text$')
   const advancedParams = params.filter(({ fieldName }) => fieldName !== '$text$')
@@ -91,5 +104,6 @@ module.exports = {
   getVacancies,
   getById,
   getByAuthorUserName,
+  edit,
   advancedSearch,
 }
