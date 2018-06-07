@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vacancy-search-container">
     <!-- <pre>{{
       JSON.stringify(this.$data, null, 2)
     }}</pre> -->
@@ -136,6 +136,10 @@ export default {
 </script>
 
 <style scoped>
+.vacancy-search-container {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .parametrized-search-bar-row {
   padding: 10px;
 }

@@ -87,8 +87,8 @@ body {
   border-bottom: 0px;
 }
 .content-container {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
   height: 100%;
   overflow: auto;
 }
