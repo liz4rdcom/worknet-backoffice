@@ -6,7 +6,17 @@ const baseUrl = '/api/latestOccupationsToISCORelations'
 
 router.get('/unrelatedList', isAuthorized, async (req, res, next) => {
   try {
-    let result = await latestOccupationsToISCORelations.getUnrelatedList(req.query.query)
+    let result = await latestOccupationsToISCORelations.getUnrelatedList()
+
+    next({result})
+  } catch (error) {
+    next({error})
+  }
+})
+
+router.get('/relatedList', isAuthorized, async (req, res, next) => {
+  try {
+    let result = await latestOccupationsToISCORelations.getRelatedList()
 
     next({result})
   } catch (error) {

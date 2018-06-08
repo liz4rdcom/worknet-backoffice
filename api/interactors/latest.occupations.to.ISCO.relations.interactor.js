@@ -1,19 +1,39 @@
 const _ = require('lodash')
 const unprocessedOccupationToISCORelationsRepo = require('../infrastructure/unprocessed.occupation.to.ISCO.relations.repository')
 const occupationInteractor = require('../infrastructure/occupation.repository')
-const libRepository = require('../infrastructure/lib.repository')
 
-async function getUnrelatedList(occupationName, ISCOId) {
-  const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
+async function getUnrelatedList() {
   const occupations = await occupationInteractor.search()
-  const ISCOList = await libRepository.getISCOList()
+  const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
-  console.log(11111111111111, unprocessedOccupationToISCORelations)
-  console.log(22222222222222, occupations)
-  console.log(33333333333333, ISCOList)
+  const unrelatedList = occupations.filter(nextOccup => !nextOccup.ISCOId)
+
+  unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {
+    if (nextUnprocOccup.ISCOId) {
+      _.remove(unrelatedList, nextUnrelListItem => nextUnrelListItem.name === nextUnprocOccup.occupationName)
+    } else {
+      unrelatedList.push({ name: nextUnprocOccup.occupationName })
+    }
+  })
+
+  return unrelatedList
 }
 
-async function getRelatedList(id) {
+async function getRelatedList() {
+  const occupations = await occupationInteractor.search()
+  const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
+
+  const relatedList = occupations.filter(nextOccup => nextOccup.ISCOId)
+
+  unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {
+    if (!nextUnprocOccup.ISCOId) {
+      _.remove(relatedList, nextRelListItem => nextRelListItem.name === nextUnprocOccup.occupationName)
+    } else {
+      relatedList.push({ occupationName: nextUnprocOccup.occupationName, ISCOId: nextUnprocOccup.ISCOId })
+    }
+  })
+
+  return relatedList
 }
 
 module.exports = {
