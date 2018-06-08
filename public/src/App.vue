@@ -8,7 +8,7 @@
           <b-nav vertical tabs pills class="side-bar-nav-tabs">
             <b-nav-item href="#/user-search">მომხმარებლები</b-nav-item>
             <b-nav-item href="#/vacancy-search">ვაკანსიები</b-nav-item>
-            <b-nav-item href="#/position-to-ISCO-relations">პოზიციები/ISCO, დაკავშირება</b-nav-item>
+            <b-nav-item href="#/occupation-to-ISCO-relations">პოზიციები/ISCO, დაკავშირება</b-nav-item>
           </b-nav>
         </div>
       </b-col>

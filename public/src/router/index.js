@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import positionToISCORelations from '@/components/position-to-ISCO-relations'
+import occupationToISCORelations from '@/components/occupation-to-ISCO-relations'
 import userSearch from '../components/userSearch/user-search'
 import vacancySearch from '../components/vacancySearch/vacancy-search'
 import login from '../components/um/login'
@@ -37,9 +37,9 @@ let router = new Router({
       component: vacancySearch,
     },
     {
-      path: '/position-to-ISCO-relations',
-      name: 'position-to-ISCO-relations',
-      component: positionToISCORelations,
+      path: '/occupation-to-ISCO-relations',
+      name: 'occupation-to-ISCO-relations',
+      component: occupationToISCORelations,
     },
   ],
 })

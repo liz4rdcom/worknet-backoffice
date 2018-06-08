@@ -1,5 +1,7 @@
 <template>
-  <b-row class="position-to-ISCO-relations-container">
+  <b-row class="occupation-to-ISCO-relations-container">
+    <button @click="onBoomClick">Boom</button>
+
     <b-col class="relations-content-column" cols="3">
       <b-row class="relations-content-column-first-row">
         <b-btn
@@ -80,17 +82,22 @@
 
 <script>
 export default {
-  name: 'position-to-ISCO-relations',
+  name: 'occupation-to-ISCO-relations',
   props: [],
   created () {},
   methods: {
+    async onBoomClick () {
+      const result = await this.$http.get('/api/latestOccupationsToISCORelations/unrelatedList')
+
+      console.log('boom: ', result)
+    },
   },
   components: {},
 }
 </script>
 
 <style scoped>
-.position-to-ISCO-relations-container {
+.occupation-to-ISCO-relations-container {
   margin-left: 0px;
   margin-right: 0px;
   padding-left: 10px;
@@ -127,5 +134,6 @@ export default {
 .hint-element-class {
   border-radius: 50%;
   box-shadow: none !important;
+  margin: 0px 5px 1px 0px;
 }
 </style>
