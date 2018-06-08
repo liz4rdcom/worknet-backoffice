@@ -1,7 +1,7 @@
 <template>
   <b-row class="occupation-to-ISCO-relations-container">
-    <b-col class="relations-content-column" cols="3">
-      <b-row class="relations-content-column-first-row">
+    <b-col class="relations-column" cols="3">
+      <div class="relations-column-first-row">
         <button @click="onBoomClick">Boom</button>
 
         <!-- <b-btn
@@ -15,13 +15,13 @@
         <h5>
           დაუკავშირებელი
         </h5>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-column-second-row">
+      <div class="relations-column-second-row">
         <b-form-input type="text"></b-form-input>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-row-third-row relations-unrelated-card-list">
+      <div class="relations-row-third-row relations-unrelated-card-list">
         <b-list-group>
           <b-list-group-item
             class="b-list-item-no-outline"
@@ -34,79 +34,97 @@
             {{nextUnrelatedElem.name}}
           </b-list-group-item>
         </b-list-group>
-      </b-row>
+      </div>
 
-      <b-row class="selected-unrelated-occupation">
+      <div class="selected-unrelated-occupation">
         {{currentUnrelatedIndex !== null ? unrelatedList[currentUnrelatedIndex].name : 'პოზიცია არ არის მონიშნული'}}
-      </b-row>
+      </div>
     </b-col>
 
-    <b-col class="relations-content-column" cols="3">
-      <b-row class="relations-content-column-first-row">
+    <b-col class="relations-column" cols="3">
+      <div class="relations-column-first-row">
         <h5>
           ISCO
         </h5>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-column-second-row">
+      <div class="relations-column-second-row">
         <b-form-input type="text"></b-form-input>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-row-third-row">
+      <div class="relations-row-third-row">
         <b-list-group>
           <b-list-group-item
             class="b-list-item-no-outline"
+            style="overflow-x: hidden;"
             v-for="nextISCOElem in ISCOList"
             :key="nextISCOElem.id"
             @click="onISCOElemClick(nextISCOElem)"
             button
           >
-            <!-- {{nextISCOElem.name}} -->
-            awdawdaw awdaw awdawawdawd awdawdawdawdawdawdawdawdaw awdawdawd
+            {{nextISCOElem.name}}
           </b-list-group-item>
         </b-list-group>
-      </b-row>
+      </div>
     </b-col>
 
-    <b-col class="relations-content-column" cols="3">
-      <b-row class="relations-content-column-first-row">
+    <b-col class="relations-column" cols="3">
+      <div class="relations-column-first-row">
         <h5>
           მიმდინარე&nbsp;ცვლილებები
         </h5>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-column-second-row">
+      <div class="relations-column-second-row">
         <b-button style="width: 100%;">ცვლილებების დადასტურება</b-button>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-row-third-row">
-        <b-card class="relations-list-card">
-          {{currentChanges}}
-        </b-card>
-      </b-row>
+      <div class="relations-row-third-row">
+        <b-list-group>
+          <b-list-group-item
+            class="b-list-item-no-outline"
+            style="overflow-x: hidden;"
+            v-for="nextCurrChangesElem in currentChanges"
+            :key="nextCurrChangesElem.occupationName"
+            button
+          >
+            {{nextCurrChangesElem.occupationName}}
+          </b-list-group-item>
+        </b-list-group>
+      </div>
     </b-col>
 
-    <b-col class="relations-content-column" cols="3">
-      <b-row class="relations-content-column-first-row">
+    <b-col class="relations-column" cols="3">
+      <div class="relations-column-first-row">
         <h5>
           დაკავშირებული
         </h5>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-column-second-row">
+      <div class="relations-column-second-row">
         <b-form-input type="text"></b-form-input>
-      </b-row>
+      </div>
 
-      <b-row class="relations-content-row-third-row">
-        <b-card class="relations-list-card">
-          {{relatedList}}
-        </b-card>
-      </b-row>
+      <div class="relations-row-third-row">
+        <b-list-group>
+          <b-list-group-item
+            class="b-list-item-no-outline"
+            style="overflow-x: hidden;"
+            v-for="nextRelatedListElem in relatedList"
+            :key="nextRelatedListElem.occupationName"
+            button
+          >
+            {{nextRelatedListElem.occupationName}}
+          </b-list-group-item>
+        </b-list-group>
+      </div>
     </b-col>
   </b-row>
 </template>
 
 <script>
+import find from 'lodash/find'
+
 export default {
   name: 'occupation-to-ISCO-relations',
   props: [],
@@ -140,7 +158,13 @@ export default {
       this.currentUnrelatedIndex = index
     },
     onISCOElemClick (clickedISCO) {
-      console.log(123, clickedISCO)
+      if (this.currentUnrelatedIndex !== null) {
+        const selectedUnrelatedListElem = this.unrelatedList[this.currentUnrelatedIndex]
+
+        if (find(this.currentChanges, nextCurrChange => nextCurrChange.occupationName === selectedUnrelatedListElem.name) === undefined) {
+          this.currentChanges.splice(0, 0, { occupationName: this.unrelatedList[this.currentUnrelatedIndex].name, ISCOId: clickedISCO.id })
+        }
+      }
     },
   },
   components: {},
@@ -158,26 +182,22 @@ export default {
   height: 100%;
   overflow: auto;
 }
-.relations-content-column {
+.relations-column {
   /* min-width: min-content; */
   height: 100%;
   padding-left: 20px;
   padding-right: 20px;
   text-align: left;
 }
-.relations-content-column-first-row {
+.relations-column-first-row {
 }
-.relations-content-column-second-row {
+.relations-column-second-row {
   padding-bottom: 8px;
 }
-.relations-content-row-third-row {
+.relations-row-third-row {
   height: calc(100% - 78px);
   background: white;
-  /* overflow-y: auto; */
-}
-.relations-list-card {
-  /* width: 100%;
-  height: 100%; */
+  overflow-y: auto;
 }
 .relations-unrelated-card-list {
   margin-bottom: 8px;

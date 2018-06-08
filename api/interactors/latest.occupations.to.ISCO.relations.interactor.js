@@ -23,11 +23,13 @@ async function getRelatedList() {
   const occupations = await occupationInteractor.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
-  const relatedList = occupations.filter(nextOccup => nextOccup.ISCOId)
+  const relatedList = occupations
+    .filter(nextOccup => nextOccup.ISCOId)
+    .map(({ name, ...rest }) => ({ occupationName: name, ...rest }))
 
   unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {
     if (!nextUnprocOccup.ISCOId) {
-      _.remove(relatedList, nextRelListItem => nextRelListItem.name === nextUnprocOccup.occupationName)
+      _.remove(relatedList, nextRelListItem => nextRelListItem.occupationName === nextUnprocOccup.occupationName)
     } else {
       relatedList.push({ occupationName: nextUnprocOccup.occupationName, ISCOId: nextUnprocOccup.ISCOId })
     }
