@@ -18,7 +18,7 @@ async function search(queryString = '*') {
 
   let result = await client.search(options)
 
-  return result.hits.hits.map(item => item._source)
+  return result.hits.hits.map(item => ({ ...item._source, id: item._id }))
 }
 
 async function addRelation(occupationName, ISCOId) {
@@ -26,6 +26,7 @@ async function addRelation(occupationName, ISCOId) {
     index,
     type,
     body: { occupationName },
+    refresh: true,
   }
 
   if (ISCOId) {
@@ -33,8 +34,6 @@ async function addRelation(occupationName, ISCOId) {
   }
 
   let result = await client.index(options)
-
-  console.log('unprocessed add relation.')
 
   return result._id
 }
@@ -64,9 +63,17 @@ async function findRelationByOccupation(occupationName) {
     },
   }
 
-  let result = await client.search(options)
+  let result = (await client.search(options)).hits.hits
 
-  return result.hits.hits.map(item => ({ ...item._source, id: item._id }))
+  if (result.length > 1) {
+    throw new Error('internal error found more than one relations')
+  }
+
+  if (result.length === 0) {
+    return undefined
+  }
+
+  return { ...result[0]._source, id: result[0]._id }
 }
 
 async function replaceByOccupationName(relation) {
@@ -76,11 +83,14 @@ async function replaceByOccupationName(relation) {
     throw new Error('No unprocessed occupation to ISCO relation to replace.')
   }
 
+  console.log('fffffffffffff', foundRel.id)
+
   let options = {
     index,
     type,
     body: relation,
     id: foundRel.id,
+    refresh: true,
   }
 
   return await client.index(options)

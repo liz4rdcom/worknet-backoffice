@@ -17,7 +17,7 @@ async function search(queryString = '*') {
 
   let result = await client.search(options)
 
-  return result.hits.hits.map(item => item._source)
+  return result.hits.hits.map(item => ({ ...item._source, id: item._id }))
 }
 
 async function exists(occupation) {

@@ -1,12 +1,12 @@
 const _ = require('lodash')
 const unprocessedOccupationToISCORelationsRepo = require('../infrastructure/unprocessed.occupation.to.ISCO.relations.repository')
-const occupationInteractor = require('../infrastructure/occupation.repository')
+const occupationRepo = require('../infrastructure/occupation.repository')
 
 async function getUnrelatedList() {
-  const occupations = await occupationInteractor.search()
+  const occupations = await occupationRepo.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
-  console.log(55555533333, unprocessedOccupationToISCORelations)
+  console.log('uuuuuuuuuuuuuuuuu', occupations, unprocessedOccupationToISCORelations)
 
   const unrelatedList = occupations.filter(nextOccup => !nextOccup.ISCOId)
 
@@ -22,7 +22,7 @@ async function getUnrelatedList() {
 }
 
 async function getRelatedList() {
-  const occupations = await occupationInteractor.search()
+  const occupations = await occupationRepo.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
   const relatedList = occupations
