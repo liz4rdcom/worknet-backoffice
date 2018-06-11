@@ -6,6 +6,8 @@ async function getUnrelatedList() {
   const occupations = await occupationInteractor.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
+  console.log(55555533333, unprocessedOccupationToISCORelations)
+
   const unrelatedList = occupations.filter(nextOccup => !nextOccup.ISCOId)
 
   unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {

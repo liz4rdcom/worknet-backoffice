@@ -28,6 +28,7 @@
             v-for="(nextUnrelatedElem, nextUnrelatedElemIndex) in unrelatedList"
             :key="nextUnrelatedElem.name"
             :active="nextUnrelatedElemIndex === currentUnrelatedIndex"
+            :disabled="isInCurrentChanges(nextUnrelatedElem.name)"
             @click="onUnrelatedElemClick(nextUnrelatedElemIndex)"
             button
           >
@@ -53,7 +54,7 @@
       </div>
 
       <div class="relations-row-third-row">
-        <b-list-group>
+        <!-- <b-list-group>
           <b-list-group-item
             class="b-list-item-no-outline"
             style="overflow-x: hidden;"
@@ -64,7 +65,7 @@
           >
             {{nextISCOElem.name}}
           </b-list-group-item>
-        </b-list-group>
+        </b-list-group> -->
       </div>
     </b-col>
 
@@ -83,12 +84,28 @@
         <b-list-group>
           <b-list-group-item
             class="b-list-item-no-outline"
-            style="overflow-x: hidden;"
-            v-for="nextCurrChangesElem in currentChanges"
+            style="overflow-x: hidden; padding: 3px;"
+            v-for="(nextCurrChangesElem, nextCurrChangesElemIndex) in currentChanges"
             :key="nextCurrChangesElem.occupationName"
             button
           >
-            {{nextCurrChangesElem.occupationName}}
+            <b-container class="bv-example-row">
+              <b-row>
+                <b-col>
+                  <i>
+                    {{nextCurrChangesElem.occupationName}}
+                  </i>
+                  {{' - '}}
+                  <b>
+                    {{getISCONameById(nextCurrChangesElem.ISCOId)}}
+                  </b>
+                </b-col>
+
+                <b-col cols="auto">
+                  <b-button variant="danger" @click="onRemoveCurrentChangeClick(nextCurrChangesElemIndex)">X</b-button>
+                </b-col>
+              </b-row>
+            </b-container>
           </b-list-group-item>
         </b-list-group>
       </div>
@@ -114,7 +131,23 @@
             :key="nextRelatedListElem.occupationName"
             button
           >
-            {{nextRelatedListElem.occupationName}}
+            <b-container class="bv-example-row">
+              <b-row>
+                <b-col>
+                  <i>
+                    {{nextRelatedListElem.occupationName}}
+                  </i>
+                  {{' - '}}
+                  <b>
+                    {{getISCONameById(nextRelatedListElem.ISCOId)}}
+                  </b>
+                </b-col>
+
+                <b-col cols="auto">
+                  <b-button variant="danger" @click="onRemoveRelatedListClick(nextRelatedListElem.occupationName)">X</b-button>
+                </b-col>
+              </b-row>
+            </b-container>
           </b-list-group-item>
         </b-list-group>
       </div>
@@ -163,8 +196,28 @@ export default {
 
         if (find(this.currentChanges, nextCurrChange => nextCurrChange.occupationName === selectedUnrelatedListElem.name) === undefined) {
           this.currentChanges.splice(0, 0, { occupationName: this.unrelatedList[this.currentUnrelatedIndex].name, ISCOId: clickedISCO.id })
+
+          this.currentUnrelatedIndex = null
         }
       }
+    },
+    isInCurrentChanges (occupationName) {
+      return find(this.currentChanges, currentChange => currentChange.occupationName === occupationName) !== undefined
+    },
+    getISCONameById (id) {
+      const foundISCOElem = find(this.ISCOList, nextISCOElem => nextISCOElem.id === id)
+
+      return foundISCOElem ? foundISCOElem.name : null
+    },
+    onRemoveCurrentChangeClick (index) {
+      this.currentChanges.splice(index, 1)
+    },
+    async onRemoveRelatedListClick (occupationName) {
+      await this.$http.post('/api/unprocessedOccupationToISCORelations/cancelRelation', { occupationName })
+
+      this.unrelatedList = (await this.$http.get('/api/latestOccupationsToISCORelations/unrelatedList')).data
+
+      this.relatedList = (await this.$http.get('/api/latestOccupationsToISCORelations/relatedList')).data
     },
   },
   components: {},

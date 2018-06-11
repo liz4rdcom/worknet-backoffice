@@ -34,6 +34,8 @@ async function addRelation(occupationName, ISCOId) {
 
   let result = await client.index(options)
 
+  console.log('unprocessed add relation.')
+
   return result._id
 }
 
@@ -67,9 +69,27 @@ async function findRelationByOccupation(occupationName) {
   return result.hits.hits.map(item => ({ ...item._source, id: item._id }))
 }
 
+async function replaceByOccupationName(relation) {
+  const foundRel = await findRelationByOccupation(relation.occupationName)
+
+  if (!foundRel) {
+    throw new Error('No unprocessed occupation to ISCO relation to replace.')
+  }
+
+  let options = {
+    index,
+    type,
+    body: relation,
+    id: foundRel.id,
+  }
+
+  return await client.index(options)
+}
+
 module.exports = {
   search,
   addRelation,
   deleteRelation,
   findRelationByOccupation,
+  replaceByOccupationName,
 }
