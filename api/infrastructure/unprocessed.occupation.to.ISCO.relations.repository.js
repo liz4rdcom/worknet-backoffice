@@ -1,5 +1,6 @@
 const elasticsearch = require('elasticsearch')
 const config = require('config')
+const utils = require('./utils')
 
 const client = new elasticsearch.Client({
   host: config.get('elastic.host'),
@@ -21,7 +22,7 @@ async function search(queryString = '*') {
   return result.hits.hits.map(item => ({ ...item._source, id: item._id }))
 }
 
-async function addRelation(occupationName, ISCOId) {
+async function saveRelation(occupationName, ISCOId, id) {
   let options = {
     index,
     type,
@@ -33,9 +34,15 @@ async function addRelation(occupationName, ISCOId) {
     options.body.ISCOId = ISCOId
   }
 
+  if (id) options.id = id
+
   let result = await client.index(options)
 
   return result._id
+}
+
+async function addRelations(relations) {
+  return await utils.insertData(index, type, relations, client)
 }
 
 async function deleteRelation(id) {
@@ -83,8 +90,6 @@ async function replaceByOccupationName(relation) {
     throw new Error('No unprocessed occupation to ISCO relation to replace.')
   }
 
-  console.log('fffffffffffff', foundRel.id)
-
   let options = {
     index,
     type,
@@ -98,7 +103,8 @@ async function replaceByOccupationName(relation) {
 
 module.exports = {
   search,
-  addRelation,
+  saveRelation,
+  addRelations,
   deleteRelation,
   findRelationByOccupation,
   replaceByOccupationName,

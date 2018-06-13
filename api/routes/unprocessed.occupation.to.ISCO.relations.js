@@ -14,6 +14,16 @@ router.post('/cancelRelation', isAuthorized, async (req, res, next) => {
   }
 })
 
+router.post('/addRelations', isAuthorized, async (req, res, next) => {
+  try {
+    let result = await unprocessedOccupationToISCORelationsInter.addRelations(req.body.relations)
+
+    next({result})
+  } catch (error) {
+    next({error})
+  }
+})
+
 module.exports = {
   router,
   baseUrl,

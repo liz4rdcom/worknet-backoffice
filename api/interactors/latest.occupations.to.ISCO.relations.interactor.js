@@ -6,8 +6,6 @@ async function getUnrelatedList() {
   const occupations = await occupationRepo.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
-  console.log('uuuuuuuuuuuuuuuuu', occupations, unprocessedOccupationToISCORelations)
-
   const unrelatedList = occupations.filter(nextOccup => !nextOccup.ISCOId)
 
   unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {
@@ -25,14 +23,16 @@ async function getRelatedList() {
   const occupations = await occupationRepo.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
+  console.log('ooooo', occupations, unprocessedOccupationToISCORelations)
+
   const relatedList = occupations
     .filter(nextOccup => nextOccup.ISCOId)
     .map(({ name, ...rest }) => ({ occupationName: name, ...rest }))
 
   unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {
-    if (!nextUnprocOccup.ISCOId) {
-      _.remove(relatedList, nextRelListItem => nextRelListItem.occupationName === nextUnprocOccup.occupationName)
-    } else {
+    _.remove(relatedList, nextRelListItem => nextRelListItem.occupationName === nextUnprocOccup.occupationName)
+
+    if (nextUnprocOccup.ISCOId) {
       relatedList.push({ occupationName: nextUnprocOccup.occupationName, ISCOId: nextUnprocOccup.ISCOId })
     }
   })

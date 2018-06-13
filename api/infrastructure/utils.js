@@ -47,7 +47,23 @@ function buildElasticParametersQuery(parameters) {
   return queryStringArray.join(' AND ')
 }
 
+async function insertData(index, type, users, client) {
+  if (users.length === 0) {
+    return
+  }
+
+  let bulk = []
+  let action = { index: { _index: index, _type: type } }
+
+  users.forEach(item => bulk.push(action, item))
+
+  return await client.bulk({
+    body: bulk,
+  })
+}
+
 module.exports = {
   toObject,
   buildElasticParametersQuery,
+  insertData,
 }

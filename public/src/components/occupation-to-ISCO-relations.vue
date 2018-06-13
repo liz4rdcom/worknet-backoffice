@@ -2,7 +2,7 @@
   <b-row class="occupation-to-ISCO-relations-container">
     <b-col class="relations-column" cols="3">
       <div class="relations-column-first-row">
-        <button @click="onBoomClick">Boom</button>
+        <!-- <button @click="onBoomClick">Boom</button> -->
 
         <!-- <b-btn
           v-b-popover.hover="'awbdouabw obawdb aobuwdouabw oubawodboawbdbou abw.'"
@@ -18,14 +18,14 @@
       </div>
 
       <div class="relations-column-second-row">
-        <b-form-input type="text"></b-form-input>
+        <b-form-input type="text" v-model="unrelatedFilterInput"></b-form-input>
       </div>
 
       <div class="relations-row-third-row relations-unrelated-card-list">
         <b-list-group>
           <b-list-group-item
             class="b-list-item-no-outline"
-            v-for="(nextUnrelatedElem, nextUnrelatedElemIndex) in unrelatedList"
+            v-for="(nextUnrelatedElem, nextUnrelatedElemIndex) in filteredUnrelatedList"
             :key="nextUnrelatedElem.name"
             :active="nextUnrelatedElemIndex === currentUnrelatedIndex"
             :disabled="isInCurrentChanges(nextUnrelatedElem.name)"
@@ -50,22 +50,24 @@
       </div>
 
       <div class="relations-column-second-row">
-        <b-form-input type="text"></b-form-input>
+        <b-form-input type="text" v-model="ISCOFilterInput" :placeholder="`მინიმუმ ${minimumLengthOfFilterText} სიმბოლო`"></b-form-input>
       </div>
 
       <div class="relations-row-third-row">
-        <!-- <b-list-group>
+        <h6 v-if="filteredISCOList.length === 0 && ISCOFilterInput.length >= minimumLengthOfFilterText">არ მოიძებნა.</h6>
+
+        <b-list-group v-if="filteredISCOList.length > 0">
           <b-list-group-item
             class="b-list-item-no-outline"
             style="overflow-x: hidden;"
-            v-for="nextISCOElem in ISCOList"
+            v-for="nextISCOElem in filteredISCOList"
             :key="nextISCOElem.id"
             @click="onISCOElemClick(nextISCOElem)"
             button
           >
             {{nextISCOElem.name}}
           </b-list-group-item>
-        </b-list-group> -->
+        </b-list-group>
       </div>
     </b-col>
 
@@ -77,7 +79,7 @@
       </div>
 
       <div class="relations-column-second-row">
-        <b-button style="width: 100%;">ცვლილებების დადასტურება</b-button>
+        <b-button style="width: 100%;" @click="onSaveChanges">ცვლილებების დადასტურება</b-button>
       </div>
 
       <div class="relations-row-third-row">
@@ -119,7 +121,7 @@
       </div>
 
       <div class="relations-column-second-row">
-        <b-form-input type="text"></b-form-input>
+        <b-form-input type="text" v-model="relatedFilterInput"></b-form-input>
       </div>
 
       <div class="relations-row-third-row">
@@ -127,7 +129,7 @@
           <b-list-group-item
             class="b-list-item-no-outline"
             style="overflow-x: hidden;"
-            v-for="nextRelatedListElem in relatedList"
+            v-for="nextRelatedListElem in filteredRelatedList"
             :key="nextRelatedListElem.occupationName"
             button
           >
@@ -157,6 +159,7 @@
 
 <script>
 import find from 'lodash/find'
+import includes from 'lodash/includes'
 
 export default {
   name: 'occupation-to-ISCO-relations',
@@ -168,6 +171,10 @@ export default {
       ISCOList: [],
       currentChanges: [],
       currentUnrelatedIndex: null,
+      unrelatedFilterInput: '',
+      ISCOFilterInput: '',
+      relatedFilterInput: '',
+      minimumLengthOfFilterText: 3,
     }
   },
   async created () {
@@ -218,6 +225,30 @@ export default {
       this.unrelatedList = (await this.$http.get('/api/latestOccupationsToISCORelations/unrelatedList')).data
 
       this.relatedList = (await this.$http.get('/api/latestOccupationsToISCORelations/relatedList')).data
+    },
+    async onSaveChanges () {
+      await this.$http.post('/api/unprocessedOccupationToISCORelations/addRelations', { relations: this.currentChanges })
+
+      this.unrelatedList = (await this.$http.get('/api/latestOccupationsToISCORelations/unrelatedList')).data
+
+      this.relatedList = (await this.$http.get('/api/latestOccupationsToISCORelations/relatedList')).data
+
+      this.currentChanges = []
+    },
+  },
+  computed: {
+    filteredUnrelatedList () {
+      return this.unrelatedList.filter(nextUnrelated => includes(nextUnrelated.name.toLowerCase(), this.unrelatedFilterInput.toLowerCase()))
+    },
+    filteredISCOList () {
+      if (this.ISCOFilterInput.length < this.minimumLengthOfFilterText) {
+        return []
+      }
+
+      return this.ISCOList.filter(nextISCO => includes(nextISCO.name.toLowerCase(), this.ISCOFilterInput.toLowerCase()))
+    },
+    filteredRelatedList () {
+      return this.relatedList.filter(nextRel => includes(nextRel.occupationName.toLowerCase(), this.relatedFilterInput.toLowerCase()))
     },
   },
   components: {},
