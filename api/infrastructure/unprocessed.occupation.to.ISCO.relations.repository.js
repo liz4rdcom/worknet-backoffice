@@ -50,6 +50,7 @@ async function deleteRelation(id) {
     index,
     type,
     id,
+    refresh: true,
   }
 
   return await client.delete(options)

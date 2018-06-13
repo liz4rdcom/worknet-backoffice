@@ -23,8 +23,6 @@ async function getRelatedList() {
   const occupations = await occupationRepo.search()
   const unprocessedOccupationToISCORelations = await unprocessedOccupationToISCORelationsRepo.search()
 
-  console.log('ooooo', occupations, unprocessedOccupationToISCORelations)
-
   const relatedList = occupations
     .filter(nextOccup => nextOccup.ISCOId)
     .map(({ name, ...rest }) => ({ occupationName: name, ...rest }))

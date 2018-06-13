@@ -59,6 +59,7 @@ async function insertData(index, type, users, client) {
 
   return await client.bulk({
     body: bulk,
+    refresh: true,
   })
 }
 

@@ -71,7 +71,7 @@ async function addRelations(relations) {
     }
   })
 
-  if (utils.arrayHasDuplicate(relations)) {
+  if (utils.arrayHasDuplicate(relations, 'occupationName')) {
     throw new Error('Relations has duplicate.')
   }
 
@@ -79,13 +79,13 @@ async function addRelations(relations) {
 
   const existingRels = []
 
-  relations.forEach(async nextRelation => {
+  await Promise.all(relations.map(async nextRelation => {
     if (_.find(unprocessedOccupationToISCORelations, nextUnproc => nextUnproc.occupationName === nextRelation.occupationName) !== undefined) {
       await unprocessedOccupationToISCORelationsRepo.replaceByOccupationName(nextRelation)
     } else {
       existingRels.push(nextRelation)
     }
-  })
+  }))
 
   return await unprocessedOccupationToISCORelationsRepo.addRelations(existingRels)
 }
