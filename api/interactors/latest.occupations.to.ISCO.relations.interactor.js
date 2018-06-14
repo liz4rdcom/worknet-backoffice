@@ -9,9 +9,9 @@ async function getUnrelatedList() {
   const unrelatedList = occupations.filter(nextOccup => !nextOccup.ISCOId)
 
   unprocessedOccupationToISCORelations.forEach(nextUnprocOccup => {
-    if (nextUnprocOccup.ISCOId) {
-      _.remove(unrelatedList, nextUnrelListItem => nextUnrelListItem.name === nextUnprocOccup.occupationName)
-    } else {
+    _.remove(unrelatedList, nextUnrelListItem => nextUnrelListItem.name === nextUnprocOccup.occupationName)
+
+    if (!nextUnprocOccup.ISCOId) {
       unrelatedList.push({ name: nextUnprocOccup.occupationName })
     }
   })

@@ -89,7 +89,6 @@
             style="overflow-x: hidden; padding: 3px;"
             v-for="(nextCurrChangesElem, nextCurrChangesElemIndex) in currentChanges"
             :key="nextCurrChangesElem.occupationName"
-            button
           >
             <b-container class="bv-example-row">
               <b-row>
@@ -131,7 +130,6 @@
             style="overflow-x: hidden;"
             v-for="nextRelatedListElem in filteredRelatedList"
             :key="nextRelatedListElem.occupationName"
-            button
           >
             <b-container class="bv-example-row">
               <b-row>
